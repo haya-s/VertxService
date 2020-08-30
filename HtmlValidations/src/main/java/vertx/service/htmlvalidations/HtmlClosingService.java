@@ -47,23 +47,34 @@ public void start(Future<Void> fut) throws Exception {
 // handle anything POSTed to /analyze
 public void analyze(RoutingContext context) {
     // the POSTed content is available in context.getBodyAsJson()
-    JsonObject body = context.getBodyAsJson();
-    if(!body.containsKey("html"))
+    try
     {
-        context.response().setStatusCode(500)
-                            .putHeader("content-type", "application/json; charset=utf-8")
-                            .end(Json.encodePrettily(new ErrResponse("input doesn't contains 'html'")));
-    }
-    else
-    {
-        // a JsonObject wraps a map and it exposes type-aware getters
-        String postedText = body.getString("html");
 
-        Response res = ClosingValidationBL.ClosingCheck(postedText);
-        context.response().setStatusCode(201)
-                            .putHeader("content-type", "application/json; charset=utf-8")
-                            .end(Json.encodePrettily(res));
+        JsonObject body = context.getBodyAsJson();
+        if(!body.containsKey("html"))
+        {
+            context.response().setStatusCode(500)
+                                .putHeader("content-type", "application/json; charset=utf-8")
+                                .end(Json.encodePrettily(new ErrResponse("input doesn't contains 'html'")));
+        }
+        else
+        {
+            // a JsonObject wraps a map and it exposes type-aware getters
+            String postedText = body.getString("html");
 
+            Response res = ClosingValidationBL.ClosingCheck(postedText);
+            context.response().setStatusCode(201)
+                                .putHeader("content-type", "application/json; charset=utf-8")
+                                .end(Json.encodePrettily(res));
+
+        }
     }
+    catch(Exception ex)
+            {
+             context.response().setStatusCode(500)
+                                .putHeader("content-type", "application/json; charset=utf-8")
+                                .end(Json.encodePrettily(new ErrResponse(ex.getMessage())));
+            }
+            
 }
 }
