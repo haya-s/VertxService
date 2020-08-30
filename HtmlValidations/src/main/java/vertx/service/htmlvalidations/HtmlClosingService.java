@@ -12,6 +12,7 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.handler.BodyHandler;
 import vertx.service.htmlvalidation.bl.ClosingValidationBL;
+import vertx.service.htmlvalidation.entities.ErrResponse;
 import vertx.service.htmlvalidation.entities.Response;
 /**
  *
@@ -47,14 +48,22 @@ public void start(Future<Void> fut) throws Exception {
 public void analyze(RoutingContext context) {
     // the POSTed content is available in context.getBodyAsJson()
     JsonObject body = context.getBodyAsJson();
+    if(!body.containsKey("html"))
+    {
+        context.response().setStatusCode(500)
+                            .putHeader("content-type", "application/json; charset=utf-8")
+                            .end(Json.encodePrettily(new ErrResponse("input doesn't contains 'html'")));
+    }
+    else
+    {
+        // a JsonObject wraps a map and it exposes type-aware getters
+        String postedText = body.getString("html");
 
-    // a JsonObject wraps a map and it exposes type-aware getters
-    String postedText = body.getString("html");
-    Response res = ClosingValidationBL.ClosingCheck(postedText);
-    context.response().setStatusCode(201)
-                        .putHeader("content-type", "application/json; charset=utf-8")
-                        .end(Json.encodePrettily(res));
-    
+        Response res = ClosingValidationBL.ClosingCheck(postedText);
+        context.response().setStatusCode(201)
+                            .putHeader("content-type", "application/json; charset=utf-8")
+                            .end(Json.encodePrettily(res));
+
+    }
 }
-
 }

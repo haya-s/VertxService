@@ -1,4 +1,3 @@
- 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,20 +9,19 @@ package vertx.service.htmlvalidation.entities;
  *
  * @author user
  */
-public class Response {
-    int validTags;
-  
-    
-    public Response(int v)
-    {
-        validTags = v;
-    }
-   
-    public int getValidTags() {
-        return validTags;
+public class ErrResponse{
+      String err;
+
+    public String getErr() {
+        return err;
     }
 
-    public void setValidTags(int validTags) {
-        this.validTags = validTags;
+    public void setErr(String err) {
+        this.err = err;
     }
+     public ErrResponse(String er)
+    {
+        this.err = er;
+    }
+    
 }
