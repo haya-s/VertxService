@@ -1,0 +1,4 @@
+vertx\service\htmlvalidation\bl\ClosingValidationBL.class
+vertx\service\htmlvalidation\entities\Response.class
+vertx\service\htmlvalidations\VerticalMain.class
+vertx\service\htmlvalidations\HtmlClosingService.class
