@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vertx.service.htmlvalidation.app;
+package vertx.service.htmlvalidation.app
+        ;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.core.AbstractVerticle;
